@@ -292,7 +292,7 @@ class AiPlayer:
     def save_policy(self):
 
         import pickle
-        pickle.dump(self.pi, open('best_policy.pkl', 'w'))
+        pickle.dump(self.pi, open('best_policy.pkl', 'wb'))
 
 
 if __name__ == '__main__':
@@ -319,7 +319,7 @@ if __name__ == '__main__':
             ai_player.save_policy()
 
     else:
-        pi = pickle.load(open('best_policy.pkl', 'r'))
+        pi = pickle.load(open('best_policy.pkl', 'rb'))
 
     while True:
 
@@ -332,7 +332,7 @@ if __name__ == '__main__':
 
             if not stop:
 
-                ai_a = ai_player.pi[curr_state]
+                ai_a = pi[curr_state]
                 _, _, stop, _ = board.place(ai_a, -1, if_display=True)
 
             if stop:
