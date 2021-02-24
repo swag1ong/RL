@@ -289,20 +289,37 @@ class AiPlayer:
 
             return action
 
+    def save_policy(self):
+
+        import pickle
+        pickle.dump(self.pi, open('best_policy.pkl', 'w'))
+
 
 if __name__ == '__main__':
 
     import argparse
+    import pickle
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-num_iter', type=int, default=10000)
     parser.add_argument('-gamma', type=float, default=0.8)
     parser.add_argument('-init_q', type=float, default=0.5)
+    parser.add_argument('-train', type=bool, default=True)
+    parser.add_argument('-save', type=bool, default=False)
 
     args = parser.parse_args()
 
     ai_player = AiPlayer(num_iter=args.num_iter, gamma=args.gamma, init_q=args.init_q)
-    ai_player.train()
+
+    if args.train:
+        ai_player.train()
+        pi = ai_player.pi
+
+        if args.save:
+            ai_player.save_policy()
+
+    else:
+        pi = pickle.load(open('best_policy.pkl', 'r'))
 
     while True:
 
